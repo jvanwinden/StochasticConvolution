@@ -3,19 +3,13 @@ module
 public import Mathlib
 
 /-!
-The failure of continuous versions implied by Theorem 1.2 of Veraar--van Winden,
-https://arxiv.org/abs/2609.12688.
-Checked with Lean v4.36.0-rc1 and mathlib revision
-8af27d91704d4e7c4a0cdf149d8ce56034e96c93.
-Only the final theorem is a proof challenge. The general definitions below use
-mathlib objects; no generator, stochastic integral, or functional calculus is
-postulated. Their equivalence with the usual characterizations is not proved here.
+The continuity counterexample implied by Theorem 1.2 of Veraar--van Winden:
+https://arxiv.org/abs/2609.12688. Only the final theorem is left unproved.
 
-The integral over [0,∞) is the graph closure of elementary Brownian sums: input
-convergence is in probability in L²(time), and output convergence is in probability.
-Finite-time integrals are expressed by cutting off the integrand.
+The integral over [0,∞) is characterized by elementary Brownian sums, with
+time-L² errors and outputs converging in probability. Finite-time integrals use
+cutoff integrands. Equivalence with the usual Itô integral is not proved here.
 -/
-
 
 @[expose] public noncomputable section
 
@@ -39,15 +33,14 @@ section Semigroups
 structure IsC0Semigroup : Prop where
   map_zero : S 0 = ContinuousLinearMap.id ℂ H
   map_add : ∀ s t, S (s + t) = (S s).comp (S t)
-  continuous_orbit : ∀ x, Continuous (fun t => S t x)
+  continuous_orbit : ∀ x, Continuous (S · x)
 
 end Semigroups
 
 section BrownianMotion
 
-/-- A complete probability space with filtration F and a real Brownian motion W
-adapted to F, whose future increments are independent of the whole past.
-No right-continuity or completeness of the filtration is imposed here. -/
+/-- A complete probability space with F-adapted Brownian motion whose future
+increments are independent of the past. No right-continuity or completeness of F is required. -/
 structure IsStochasticBasisWithBrownianMotion : Prop where
   isProbabilityMeasure : IsProbabilityMeasure P
   isComplete : P.IsComplete
@@ -61,48 +54,38 @@ end BrownianMotion
 section StochasticIntegration
 
 /-- Finite predictable step processes and their Brownian sums over [0,∞).
-Each step process has bounded time support, with no prescribed common bound.
-Coefficients may be unbounded random vectors; no probability moments are imposed. -/
+Time support is bounded; coefficients need not have probability moments. -/
 def ElementaryIntegral (Z : Ω → H) : Prop :=
   ∃ (n : ℕ) (a b : Fin n → ℝ≥0) (ξ : Fin n → Ω → H),
     (∀ i, a i ≤ b i ∧ StronglyMeasurable[F (a i)] (ξ i)) ∧
     g = (fun s ω => ∑ i, (Ioc (a i) (b i)).indicator (fun _ => ξ i ω) s) ∧
-    Z = (fun ω => ∑ i, ((W (b i) ω - W (a i) ω : ℝ) : ℂ) • ξ i ω)
+    Z = (fun ω => ∑ i, (W (b i) ω - W (a i) ω) • ξ i ω)
 
-/-- The Itô integral over [0,∞), characterized rather than constructed.
-With `IsStochasticBasisWithBrownianMotion P F W` and H complete, this is the
-usual integral, unique up to P-a.e. equality. Almost-sure pathwise time-L²
-integrability over the whole time axis is required, with no probability moments.
-The input error uses a nonnegative extended integral, never `ENNReal.toReal`.
-`TendstoInMeasure P` is convergence in probability when P is a probability measure.
-Finite-time integrals use an integrand cut off after the desired time.
-This specifies a random variable. Evaluations at stopping times require
-a continuous process version; fixed-time a.e. equalities alone do not suffice. -/
+/-- The Itô integral over [0,∞), characterized by elementary approximations.
+Requires almost-sure time-L² integrability, with no probability moments.
+Under a stochastic basis, both limits are in probability; input errors stay in ℝ≥0∞.
+This specifies a random variable, not a continuous process version. -/
 structure IsItoIntegral (Z : Ω → H) : Prop where
   stronglyPredictable : IsStronglyPredictable F g
   ae_memLp : ∀ᵐ ω ∂P, MemLp (fun s : ℝ≥0 => g s ω) 2
   aestronglyMeasurable : AEStronglyMeasurable Z P
   exists_approximation : ∃ (gₙ : ℕ → ℝ≥0 → Ω → H) (Zₙ : ℕ → Ω → H),
     (∀ n, ElementaryIntegral F W (gₙ n) (Zₙ n)) ∧
-    (∀ ε : ℝ≥0, 0 < ε → Tendsto (fun n =>
-      P {ω | (ε : ℝ≥0∞) < ∫⁻ s, ‖gₙ n s ω - g s ω‖ₑ ^ 2})
-      atTop (𝓝 0)) ∧
+    TendstoInMeasure P (fun n ω => ∫⁻ s, ‖gₙ n s ω - g s ω‖ₑ ^ 2) atTop 0 ∧
     TendstoInMeasure P Zₙ atTop Z
 
 end StochasticIntegration
 
 section StochasticConvolutions
 
-/-- The process U has a version with almost-surely continuous paths on [0,1].
-Equality with U is required almost surely at each fixed time in [0,1];
-the exceptional set for equality may depend on the time. -/
+/-- A version of U with almost-surely continuous paths on [0,1].
+Equality holds a.s. at each fixed time, with possibly time-dependent null sets. -/
 def HasContinuousVersion : Prop :=
   ∃ V : ℝ≥0 → Ω → H,
     (∀ t, t ≤ 1 → V t =ᵐ[P] U t) ∧
-    ∀ᵐ ω ∂P, ContinuousOn (fun t => V t ω) (Iic 1)
+    ∀ᵐ ω ∂P, ContinuousOn (V · ω) (Iic 1)
 
-/-- The integrands in the theorem: predictable processes whose time-L² energy
-on [0,1] is almost surely bounded by a deterministic constant. -/
+/-- Predictable integrands with a deterministic a.s. bound on their [0,1] energy. -/
 structure IsAdmissibleIntegrand : Prop where
   stronglyPredictable : IsStronglyPredictable F g
   bounded_energy : ∃ C : ℝ≥0, ∀ᵐ ω ∂P, ∫⁻ s in Iic 1, ‖g s ω‖ₑ ^ 2 ≤ C
@@ -116,9 +99,7 @@ open scoped lp
 /-- The canonical separable complex Hilbert space. -/
 abbrev H₀ := ℓ²(ℕ, ℂ)
 
-/-- The continuity consequence of Theorem 1.2: a stochastic convolution with
-a C₀-semigroup on the canonical separable Hilbert space ℓ²(ℕ, ℂ) need not have
-a continuous version, even with bounded energy. -/
+/-- Theorem 1.2's continuity counterexample on ℓ²(ℕ, ℂ), with bounded energy. -/
 theorem theorem_1_2 :
     ∃ (S : ℝ≥0 → H₀ →L[ℂ] H₀)
       (Ω : Type) (mΩ : MeasurableSpace Ω) (P : Measure Ω)
