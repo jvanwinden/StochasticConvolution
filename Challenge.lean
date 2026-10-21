@@ -47,22 +47,19 @@ structure IsStochasticBasis : Prop where
   isBrownianReal : IsBrownianReal β P
   stronglyAdapted : StronglyAdapted F β
   indep_increments : ∀ s t, s ≤ t →
-    Indep (F s) (MeasurableSpace.comap (fun ω ↦ β t ω - β s ω) (borel ℝ)) P
+    Indep (F s) (.comap (fun ω ↦ β t ω - β s ω) (borel ℝ)) P
 
-/-- The random variable `Z` is the elementary integral of `g`. -/
+/-- `Z` is the elementary integral of `g`. -/
 def IsElementaryIntegral (Z : Ω → X) : Prop :=
   ∃ (n : ℕ) (a b : Fin n → ℝ≥0) (ξ : Fin n → Ω → X),
-    (∀ i, a i ≤ b i ∧ StronglyMeasurable[F (a i)] (ξ i)) ∧
+    (∀ i, a i ≤ b i) ∧
     g = (fun s ω ↦ ∑ i, (Ioc (a i) (b i)).indicator (fun _ ↦ ξ i ω) s) ∧
     Z = (fun ω ↦ ∑ i, (β (b i) ω - β (a i) ω) • ξ i ω)
 
-/-- The random variable `Z` is the Ito integral of `g`. -/
-structure IsItoIntegral (Z : Ω → X) : Prop where
-  isStronglyPredictable : IsStronglyPredictable F g
-  ae_memLp : ∀ᵐ ω ∂P, MemLp (g · ω) 2
-  aestronglyMeasurable : AEStronglyMeasurable Z P
-  exists_approximation : ∃ (gₙ : ℕ → ℝ≥0 → Ω → X) (Zₙ : ℕ → Ω → X),
-    (∀ n, IsElementaryIntegral F β (gₙ n) (Zₙ n)) ∧
+/-- `Z` is the Itô integral of `g`. -/
+def IsItoIntegral (Z : Ω → X) : Prop :=
+    ∃ (gₙ : ℕ → ℝ≥0 → Ω → X) (Zₙ : ℕ → Ω → X),
+    (∀ n, IsStronglyPredictable F (gₙ n) ∧ IsElementaryIntegral β (gₙ n) (Zₙ n)) ∧
     TendstoInMeasure P (fun n ω ↦ eLpNorm (fun s ↦ gₙ n s ω - g s ω) 2) atTop 0 ∧
     TendstoInMeasure P Zₙ atTop Z
 
@@ -70,8 +67,7 @@ end StochasticIntegration
 
 section StochasticConvolutions
 
-/-- A version of U with almost-surely continuous paths.
-Equality holds a.s. at each fixed time, with possibly time-dependent null sets. -/
+/-- `U` has an almost surely continuous modification. -/
 def HasContinuousVersion : Prop :=
   ∃ V : ℝ≥0 → Ω → X,
     (∀ t, V t =ᵐ[P] U t) ∧
