@@ -3,13 +3,11 @@ module
 public import Mathlib
 
 /-!
-The continuity counterexample implied by Theorem 1.2 of Veraar--van Winden:
-https://arxiv.org/abs/2609.12688. The Itô integral existence and uniqueness
-theorems and the final theorem are left unproved.
+Challenge file for the continuity counterexample implied by Theorem 1.2 of
+Veraar--van Winden at https://arxiv.org/abs/2609.12688.
 
-The integral over [0,∞) is characterized by elementary Brownian sums, with
-time-L² errors and outputs converging in probability. Finite-time integrals use
-cutoff integrands. Equivalence with the usual Itô integral is not proved here.
+The stochastic integral over [0,∞) is characterized using the closure of the
+graph of elementary integrals, with respect to convergence in probability.
 -/
 
 @[expose] public noncomputable section
@@ -103,7 +101,7 @@ open scoped lp
 /-- The canonical separable complex Hilbert space. -/
 abbrev X₀ := ℓ²(ℕ, ℂ)
 
-/-- Theorem 1.2's continuity counterexample on ℓ²(ℕ, ℂ), with bounded energy. -/
+/-- Theorem 1.2's continuity counterexample on ℓ²(ℕ, ℂ). -/
 theorem theorem_1_2 :
     ∃ (S : ℝ≥0 → X₀ →L[ℂ] X₀)
       (Ω : Type) (mΩ : MeasurableSpace Ω) (P : Measure Ω)
