@@ -4,7 +4,7 @@ public import Mathlib
 
 /-!
 The continuity counterexample implied by Theorem 1.2 of Veraar--van Winden:
-https://arxiv.org/abs/2609.12688. The stochastic convolution existence and uniqueness
+https://arxiv.org/abs/2609.12688. The Itô integral existence and uniqueness
 theorems and the final theorem are left unproved.
 
 The integral over [0,∞) is characterized by elementary Brownian sums, with
@@ -78,25 +78,20 @@ structure IsAdmissibleIntegrand : Prop where
   isStronglyPredictable : IsStronglyPredictable F g
   bounded_energy : essSup (fun ω ↦ eLpNorm (g · ω) 2) P < ∞
 
-/-- At a fixed time, an admissible integrand has a stochastic convolution integral. -/
-theorem exists_stochastic_convolution
-    (hS : IsC0Semigroup S) (hβ : IsStochasticBasis P F β)
-    (hg : IsAdmissibleIntegrand P F g) (t : ℝ≥0) :
-    ∃ Z : Ω → X,
-      IsItoIntegral P F β
-        ((Iic t).indicator (fun s ω ↦ S (t - s) (g s ω))) Z := by
+/-- An admissible integrand has an Itô integral over [0,∞). -/
+theorem exists_isItoIntegral
+    (hβ : IsStochasticBasis P F β)
+    (hg : IsAdmissibleIntegrand P F g) :
+    ∃ Z : Ω → X, IsItoIntegral P F β g Z := by
   sorry
 
-/-- At a fixed time, stochastic convolution integrals of an admissible integrand
-are equal almost surely. -/
-theorem stochastic_convolution_unique
-    (hS : IsC0Semigroup S) (hβ : IsStochasticBasis P F β)
-    (hg : IsAdmissibleIntegrand P F g) (t : ℝ≥0) {Z W : Ω → X}
-    (hZ : IsItoIntegral P F β
-      ((Iic t).indicator (fun s ω ↦ S (t - s) (g s ω))) Z)
-    (hW : IsItoIntegral P F β
-      ((Iic t).indicator (fun s ω ↦ S (t - s) (g s ω))) W) :
-    Z =ᵐ[P] W := by
+/-- Itô integrals of an admissible integrand agree almost surely. -/
+theorem isItoIntegral_unique
+    (hβ : IsStochasticBasis P F β)
+    (hg : IsAdmissibleIntegrand P F g) {Z₁ Z₂ : Ω → X}
+    (hZ₁ : IsItoIntegral P F β g Z₁)
+    (hZ₂ : IsItoIntegral P F β g Z₂) :
+    Z₁ =ᵐ[P] Z₂ := by
   sorry
 
 end StochasticConvolutions
