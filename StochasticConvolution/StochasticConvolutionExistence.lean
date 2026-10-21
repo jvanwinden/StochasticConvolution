@@ -73,6 +73,31 @@ theorem isAdmissibleIntegrand_convolution (hS : IsC0Semigroup S)
     exact (hpath ω).trans (mul_le_mul le_rfl hω (by positivity) (by positivity))
   exact hle.trans_lt (ENNReal.mul_lt_top ENNReal.ofReal_lt_top hB)
 
+/-- Square integrability on the product space is preserved by a fixed convolution kernel. -/
+theorem memLp_product_convolution (hS : IsC0Semigroup S)
+    (hg : IsStronglyPredictable F g)
+    (hgLp : MemLp (Function.uncurry g) 2 ((volume : Measure ℝ≥0).prod P)) (T : ℝ≥0) :
+    MemLp (fun p : ℝ≥0 × Ω ↦ if p.1 ≤ T then S (T - p.1) (g p.1 p.2) else 0) 2
+      ((volume : Measure ℝ≥0).prod P) := by
+  obtain ⟨C, hC, hbound⟩ := isC0Semigroup_convolution_norm_le hS T
+  apply (hgLp.norm.const_mul C).mono'
+    (isStronglyPredictable_stronglyMeasurable
+      (isStronglyPredictable_convolution hS hg T)).aestronglyMeasurable
+  filter_upwards [] with p
+  dsimp only [Function.uncurry] at *
+  split_ifs with ht
+  · exact hbound p.1 ht (g p.1 p.2)
+  · exact (norm_zero : ‖(0 : X)‖ = 0).trans_le (mul_nonneg hC (norm_nonneg _))
+
+theorem exists_stochasticConvolution_of_memLp_product (hβ : IsStochasticBasis P F β)
+    (hS : IsC0Semigroup S) (hg : IsStronglyPredictable F g)
+    (hgLp : MemLp (Function.uncurry g) 2 ((volume : Measure ℝ≥0).prod P)) :
+    ∃ U : ℝ≥0 → Ω → X, ∀ T, IsItoIntegral P F β
+      (fun s ω ↦ if s ≤ T then S (T - s) (g s ω) else 0) (U T) := by
+  choose U hU using fun T ↦ exists_isItoIntegral_of_memLp_product hβ
+    (isStronglyPredictable_convolution hS hg T) (memLp_product_convolution hS hg hgLp T)
+  exact ⟨U, hU⟩
+
 /-- Stochastic convolutions exist at every fixed time under the challenge's hypotheses. -/
 theorem exists_stochasticConvolution (hβ : IsStochasticBasis P F β)
     (hS : IsC0Semigroup S) (hg : IsAdmissibleIntegrand P F g) :

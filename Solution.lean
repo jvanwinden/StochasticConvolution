@@ -10,6 +10,11 @@ public import StochasticConvolution.ExponentialIto
 public import StochasticConvolution.BrownianLowerHittingTime
 public import StochasticConvolution.OccupationTimeMeasure
 public import StochasticConvolution.StoppedExponentialSums
+public import StochasticConvolution.FiniteExponentialConvolutionIto
+public import StochasticConvolution.ItoLocality
+public import StochasticConvolution.PredictableStopping
+public import StochasticConvolution.HarmonicMaximalObstruction
+public import StochasticConvolution.BrownianBasis
 
 /-! Proofs of the statements in `Challenge`, using the results in `StochasticConvolution`. -/
 
