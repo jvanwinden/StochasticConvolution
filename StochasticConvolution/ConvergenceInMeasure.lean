@@ -105,4 +105,44 @@ theorem exists_subseq_tendstoInMeasure_of_cauchy
     exact Classical.choose_spec (cauchySeq_tendsto_of_complete hω)
   exact ⟨ns, Z, hns, tendstoInMeasure_of_tendsto_ae (fun k ↦ hf (ns k)) hZ⟩
 
+/-- Multiplication by a fixed vector preserves convergence in probability. -/
+theorem tendstoInMeasure_smul_const [NormedAddCommGroup X] [NormedSpace ℝ X]
+    {f : ι → Ω → ℝ} {g : Ω → ℝ} (h : TendstoInMeasure P f l g) (x : X) :
+    TendstoInMeasure P (fun n ω ↦ f n ω • x) l (fun ω ↦ g ω • x) := by
+  rw [tendstoInMeasure_iff_norm] at h ⊢
+  intro ε hε
+  by_cases hx : x = 0
+  · simpa only [hx, smul_zero, sub_zero, norm_zero, not_le.mpr hε, Set.ofPred_false,
+      measure_empty] using (tendsto_const_nhds : Tendsto (fun _ : ι ↦ (0 : ℝ≥0∞)) l (𝓝 0))
+  have hxpos : 0 < ‖x‖ := norm_pos_iff.mpr hx
+  have heq (n : ι) : {ω | ε ≤ ‖f n ω • x - g ω • x‖} =
+      {ω | ε / ‖x‖ ≤ ‖f n ω - g ω‖} := by
+    ext ω
+    simp only [mem_ofPred_eq, ← sub_smul, norm_smul]
+    exact (div_le_iff₀ hxpos).symm
+  simp_rw [heq]
+  exact h (ε / ‖x‖) (div_pos hε hxpos)
+
+/-- For nonnegative extended-real errors, almost-sure convergence to zero implies
+convergence in probability. This uses the order topology at zero. -/
+theorem tendstoInMeasure_ennreal_zero_of_tendsto_ae [IsFiniteMeasure P]
+    {f : ℕ → Ω → ℝ≥0∞} (hf : ∀ n, Measurable (f n))
+    (hlim : ∀ᵐ ω ∂P, Tendsto (fun n ↦ f n ω) atTop (𝓝 0)) :
+    TendstoInMeasure P f atTop 0 := by
+  intro ε hε
+  simp only [Pi.zero_apply, ENNReal.edist_zero_right]
+  have hmeas (n : ℕ) : MeasurableSet {ω | ε ≤ f n ω} :=
+    measurableSet_le measurable_const (hf n)
+  have hD := tendsto_lintegral_of_dominated_convergence (μ := P) (bound := fun _ ↦ 1)
+    (F := fun n ↦ {ω | ε ≤ f n ω}.indicator (fun _ ↦ 1))
+    (f := fun _ ↦ 0) (fun n ↦ measurable_const.indicator (hmeas n))
+    (fun n ↦ Eventually.of_forall fun ω ↦ by simp only [indicator_apply]; split_ifs <;> simp)
+    (by simp) (by
+      filter_upwards [hlim] with ω hω
+      apply tendsto_const_nhds.congr'
+      filter_upwards [hω.eventually (gt_mem_nhds hε)] with n hn
+      simp [not_le.mpr hn])
+  simpa only [lintegral_indicator (hmeas _), lintegral_one, Measure.restrict_apply_univ,
+    lintegral_zero] using hD
+
 end Solution

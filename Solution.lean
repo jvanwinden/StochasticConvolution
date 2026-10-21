@@ -5,6 +5,11 @@ public import StochasticConvolution.ContinuousModification
 public import StochasticConvolution.SchauderSemigroup
 public import StochasticConvolution.DyadicSquareFunction
 public import StochasticConvolution.HilbertMatrixEstimate
+public import StochasticConvolution.HarmonicSemigroup
+public import StochasticConvolution.ExponentialIto
+public import StochasticConvolution.BrownianLowerHittingTime
+public import StochasticConvolution.OccupationTimeMeasure
+public import StochasticConvolution.StoppedExponentialSums
 
 /-! Proofs of the statements in `Challenge`, using the results in `StochasticConvolution`. -/
 
