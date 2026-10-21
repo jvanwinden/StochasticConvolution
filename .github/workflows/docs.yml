@@ -1,0 +1,35 @@
+name: Documentation
+
+on:
+  push:
+    branches: [master]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: github-pages
+  cancel-in-progress: false
+
+jobs:
+  docs:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+
+    steps:
+      - uses: actions/checkout@v7
+      - name: Build Challenge and Solution
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: true
+          build-args: "Challenge Solution"
+          use-mathlib-cache: true
+      - name: Build and deploy documentation
+        uses: leanprover-community/docgen-action@v1

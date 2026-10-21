@@ -68,10 +68,10 @@ end StochasticIntegration
 section StochasticConvolutions
 
 /-- `U` has an almost surely continuous modification. -/
-def HasContinuousVersion : Prop :=
+def HasContinuousVersionOn (s : Set ℝ≥0) : Prop :=
   ∃ V : ℝ≥0 → Ω → X,
     (∀ t, V t =ᵐ[P] U t) ∧
-    ∀ᵐ ω ∂P, Continuous (V · ω)
+    ∀ᵐ ω ∂P, ContinuousOn (V · ω) s
 
 /-- Predictable integrands with essentially bounded pathwise L² norm. -/
 structure IsAdmissibleIntegrand : Prop where
@@ -110,9 +110,9 @@ theorem theorem_1_2 :
       (F : Filtration ℝ≥0 mΩ) (β : ℝ≥0 → Ω → ℝ) (g U : ℝ≥0 → Ω → X₀),
       IsC0Semigroup S ∧ IsStochasticBasis P F β ∧
       IsAdmissibleIntegrand P F g ∧
-      (∀ t, t ≤ 1 → IsItoIntegral P F β
-        ((Iic t).indicator (fun s ω ↦ S (t - s) (g s ω))) (U t)) ∧
-      ¬ HasContinuousVersion P U := by
+      (∀ t, IsItoIntegral P F β
+        (fun s ω ↦ if s ≤ t then S (t - s) (g s ω) else 0) (U t)) ∧
+      ¬ HasContinuousVersionOn P U (Set.Iic 1) := by
   sorry
 
 end Theorem

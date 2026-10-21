@@ -3,20 +3,41 @@ name: Create Release
 on:
   push:
     branches:
-      - 'main'
-      - 'master'
+      - master
     paths:
       - 'lean-toolchain'
 
+permissions:
+  contents: read
+
+concurrency:
+  group: lean-release
+  cancel-in-progress: false
+
 jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v7
+      - name: Build Challenge and Solution
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: true
+          build-args: "Challenge Solution"
+          use-mathlib-cache: true
+
   lean-release-tag:
     name: Add Lean release tag
+    needs: build
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     permissions:
       contents: write
     steps:
-    - name: lean-release-tag action
-      uses: leanprover-community/lean-release-tag@v1
-      with:
-        do-release: true
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Create Lean release tag
+        uses: leanprover-community/lean-release-tag@v1
+        with:
+          do-release: true
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
