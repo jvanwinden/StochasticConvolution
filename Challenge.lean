@@ -3,7 +3,7 @@ module
 public import Mathlib
 
 /-!
-Challenge file for the continuity counterexample implied by Theorem 1.2 of
+Challenge file for a corollary of Theorem 1.2 of
 Veraar--van Winden at https://arxiv.org/abs/2609.12688.
 
 The stochastic integral over [0,∞) is characterized using the closure of the
@@ -66,10 +66,10 @@ end StochasticIntegration
 section StochasticConvolutions
 
 /-- `U` has an almost surely continuous modification. -/
-def HasContinuousVersionOn (s : Set ℝ≥0) : Prop :=
+def HasContinuousModification : Prop :=
   ∃ V : ℝ≥0 → Ω → X,
     (∀ t, V t =ᵐ[P] U t) ∧
-    ∀ᵐ ω ∂P, ContinuousOn (V · ω) s
+    ∀ᵐ ω ∂P, Continuous (V · ω)
 
 /-- Predictable integrands with essentially bounded pathwise L² norm. -/
 structure IsAdmissibleIntegrand : Prop where
@@ -101,7 +101,8 @@ open scoped lp
 /-- The canonical separable complex Hilbert space. -/
 abbrev X₀ := ℓ²(ℕ, ℂ)
 
-/-- Theorem 1.2's continuity counterexample on ℓ²(ℕ, ℂ). -/
+/-- A stochastic convolutions with C₀ semigroup might not have a
+continuous modification. -/
 theorem theorem_1_2 :
     ∃ (S : ℝ≥0 → X₀ →L[ℂ] X₀)
       (Ω : Type) (mΩ : MeasurableSpace Ω) (P : Measure Ω)
@@ -110,7 +111,7 @@ theorem theorem_1_2 :
       IsAdmissibleIntegrand P F g ∧
       (∀ t, IsItoIntegral P F β
         (fun s ω ↦ if s ≤ t then S (t - s) (g s ω) else 0) (U t)) ∧
-      ¬ HasContinuousVersionOn P U (Set.Iic 1) := by
+      ¬ HasContinuousModification P U := by
   sorry
 
 end Theorem
