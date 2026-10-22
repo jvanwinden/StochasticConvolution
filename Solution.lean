@@ -15,6 +15,8 @@ public import StochasticConvolution.ItoLocality
 public import StochasticConvolution.PredictableStopping
 public import StochasticConvolution.HarmonicMaximalObstruction
 public import StochasticConvolution.BrownianBasis
+public import StochasticConvolution.CounterexampleFromBrownian
+public import StochasticConvolution.BrownianConstruction
 
 /-! Proofs of the statements in `Challenge`, using the results in `StochasticConvolution`. -/
 
@@ -48,5 +50,18 @@ theorem isItoIntegral_unique
     (hZ₂ : IsItoIntegral P F β g Z₂) :
     Z₁ =ᵐ[P] Z₂ := by
   exact isItoIntegral_ae_eq hβ hZ₁ hZ₂
+
+/-- A stochastic convolution with a C₀ semigroup can fail to have a continuous modification. -/
+theorem theorem_1_2 :
+    ∃ (S : ℝ≥0 → X₀ →L[ℂ] X₀)
+      (Ω : Type) (mΩ : MeasurableSpace Ω) (P : Measure Ω)
+      (F : Filtration ℝ≥0 mΩ) (β : ℝ≥0 → Ω → ℝ) (g U : ℝ≥0 → Ω → X₀),
+      IsC0Semigroup S ∧ IsStochasticBasis P F β ∧
+      IsAdmissibleIntegrand P F g ∧
+      (∀ t, IsItoIntegral P F β
+        (fun s ω ↦ if s ≤ t then S (t - s) (g s ω) else 0) (U t)) ∧
+      ¬ HasContinuousModification P U := by
+  obtain ⟨Ω, mΩ, P, B, hB⟩ := exists_realBrownian
+  exact counterexample_of_isBrownianReal hB
 
 end Solution

@@ -3,6 +3,7 @@ module
 public import StochasticConvolution.AdmissibleSeriesAlgebra
 public import StochasticConvolution.StochasticUniformBoundedness
 public import StochasticConvolution.StochasticConvolutionContinuity
+public import StochasticConvolution.ContinuousModification
 
 /-! Qualitative boundedness of stochastic convolutions implies a uniform weak bound. -/
 
@@ -110,5 +111,27 @@ theorem convolution_weak_bound (hβ : IsStochasticBasis P F β)
     rintro ω ⟨i, hi⟩
     exact ⟨i, hn.trans ((lt_add_of_pos_right (n : ℝ) zero_lt_one).trans hi)⟩
   exact (hlarge n).not_ge ((measure_mono hsub).trans (hsmall n))
+
+/-- Continuous modifications for all admissible convolutions imply a weak maximal
+estimate on every countable set of times in a fixed compact interval. -/
+theorem convolution_weak_bound_of_continuous_modifications (hβ : IsStochasticBasis P F β)
+    (hS : IsC0Semigroup S)
+    (hcontinuous : ∀ g, IsAdmissibleIntegrand P F g → ∀ U : ℝ≥0 → Ω → X,
+      (∀ T, IsItoIntegral P F β
+        (fun s ω ↦ if s ≤ T then S (T - s) (g s ω) else 0) (U T)) →
+      HasContinuousModification P U)
+    {T₀ : ℝ≥0} (ht : ∀ i, t i ≤ T₀) {ε : ℝ≥0∞} (hε : 0 < ε) :
+    ∃ K : ℝ, 0 < K ∧ ∀ (g U : ℝ≥0 → Ω → X),
+      IsStronglyPredictable F g → (∀ᵐ ω ∂P, eLpNorm (g · ω) 2 ≤ 1) →
+      (∀ T, IsItoIntegral P F β
+        (fun s ω ↦ if s ≤ T then S (T - s) (g s ω) else 0) (U T)) →
+      P {ω | ∃ i, K < ‖U (t i) ω‖} ≤ ε := by
+  apply convolution_weak_bound hβ hS _ hε
+  intro g hg U hU
+  have hb := hasContinuousModification_ae_bddAbove (hcontinuous g hg U hU)
+    (D := range t) (countable_range t) (T := T₀)
+    (by rintro _ ⟨i, rfl⟩; exact ⟨zero_le, ht i⟩)
+  filter_upwards [hb] with ω hω
+  simpa only [← range_comp, Function.comp_def] using hω
 
 end Solution
