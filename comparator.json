@@ -4,7 +4,7 @@
   "theorem_names": [
     "StochasticConvolution.exists_isItoIntegral",
     "StochasticConvolution.isItoIntegral_unique",
-    "StochasticConvolution.theorem_1_2"
+    "StochasticConvolution.discontinuous_stochastic_convolution"
   ],
   "permitted_axioms": [
     "propext",

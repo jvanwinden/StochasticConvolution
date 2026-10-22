@@ -54,7 +54,7 @@ theorem isItoIntegral_unique
   exact Solution.isItoIntegral_ae_eq hβ hZ₁ hZ₂
 
 /-- A stochastic convolution with a C₀ semigroup can fail to have a continuous modification. -/
-theorem theorem_1_2 :
+theorem discontinuous_stochastic_convolution :
     ∃ (S : ℝ≥0 → X₀ →L[ℂ] X₀)
       (Ω : Type) (mΩ : MeasurableSpace Ω) (P : Measure Ω)
       (F : Filtration ℝ≥0 mΩ) (β : ℝ≥0 → Ω → ℝ) (g U : ℝ≥0 → Ω → X₀),

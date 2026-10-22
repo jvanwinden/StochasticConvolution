@@ -3,8 +3,7 @@ module
 public import Mathlib
 
 /-!
-Challenge file for a corollary of Theorem 1.2 of
-Veraar--van Winden at https://arxiv.org/abs/2609.12688.
+Challenge file for a corollary of Theorem 1.2 of https://arxiv.org/abs/2609.12688.
 
 The stochastic integral over [0,∞) is characterized using the closure of the
 graph of elementary integrals, with respect to convergence in probability.
@@ -103,7 +102,7 @@ abbrev X₀ := ℓ²(ℕ, ℂ)
 
 /-- A stochastic convolutions with C₀ semigroup might not have a
 continuous modification. -/
-theorem theorem_1_2 :
+theorem discontinuous_stochastic_convolution :
     ∃ (S : ℝ≥0 → X₀ →L[ℂ] X₀)
       (Ω : Type) (mΩ : MeasurableSpace Ω) (P : Measure Ω)
       (F : Filtration ℝ≥0 mΩ) (β : ℝ≥0 → Ω → ℝ) (g U : ℝ≥0 → Ω → X₀),
