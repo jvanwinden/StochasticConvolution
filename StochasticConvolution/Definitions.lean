@@ -18,7 +18,9 @@ open scoped NNReal ENNReal Topology
 namespace StochasticConvolution
 
 -- Use Lebesgue measure on ℝ≥0 inherited from ℝ.
-local instance : MeasureSpace ℝ≥0 := Measure.Subtype.measureSpace
+-- Match the name Lean assigns to the anonymous instance in `Challenge.lean`.
+local instance instMeasureSpaceNNReal_challenge : MeasureSpace ℝ≥0 :=
+  Measure.Subtype.measureSpace
 
 variable {Ω : Type*} {mΩ : MeasurableSpace Ω}
 variable (P : Measure Ω) (F : Filtration ℝ≥0 mΩ) (β : ℝ≥0 → Ω → ℝ)
