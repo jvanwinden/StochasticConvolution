@@ -12,7 +12,7 @@ To audit the theorem statement, examine `Challenge.lean` (which imports only Mat
 
 Since Mathlib does not have a definition for the stochastic integral, the Challenge file 
 additionally contains a characterization of the stochastic integral in terms of the closure 
-(in probability) of the graph norm of the Riemann-Stieltjes integral for elementary processes.
+(in probability) of the graph of the Riemann-Stieltjes integral for elementary processes.
 
 To verify the proof, first run `lake exe cache get` (optional, to fetch the Mathlib cache) and then 
 ```
