@@ -1,6 +1,6 @@
 module
 
-public import Challenge
+public import StochasticConvolution.Definitions
 
 /-! Completion and natural filtrations for Brownian stochastic bases. -/
 

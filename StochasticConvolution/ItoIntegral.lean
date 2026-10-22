@@ -1,6 +1,6 @@
 module
 
-public import Challenge
+public import StochasticConvolution.Definitions
 public import StochasticConvolution.ConvergenceInMeasure
 public import StochasticConvolution.StochasticBasis
 public import StochasticConvolution.ElementaryIsometry

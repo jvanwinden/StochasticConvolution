@@ -1,6 +1,6 @@
 module
 
-public import Challenge
+public import StochasticConvolution.Definitions
 
 /-! Brownian increment identities for the stochastic basis specified in `Challenge`. -/
 

@@ -1,0 +1,14 @@
+{
+  "challenge_module": "Challenge",
+  "solution_module": "Solution",
+  "theorem_names": [
+    "StochasticConvolution.exists_isItoIntegral",
+    "StochasticConvolution.isItoIntegral_unique",
+    "StochasticConvolution.theorem_1_2"
+  ],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ]
+}

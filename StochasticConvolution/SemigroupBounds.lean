@@ -1,6 +1,6 @@
 module
 
-public import Challenge
+public import StochasticConvolution.Definitions
 
 /-! Bounds for strongly continuous semigroups on compact time intervals. -/
 

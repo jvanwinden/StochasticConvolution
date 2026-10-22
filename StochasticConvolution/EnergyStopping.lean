@@ -1,6 +1,6 @@
 module
 
-public import Challenge
+public import StochasticConvolution.Definitions
 public import StochasticConvolution.PredictableStopping
 public import StochasticConvolution.ProcessTimeIntegral
 public import StochasticConvolution.ContinuousHittingTime

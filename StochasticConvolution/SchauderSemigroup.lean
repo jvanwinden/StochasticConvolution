@@ -1,6 +1,6 @@
 module
 
-public import Challenge
+public import StochasticConvolution.Definitions
 public import StochasticConvolution.SchauderMultiplier
 
 /-! Strongly continuous semigroups defined by positive Schauder multipliers. -/

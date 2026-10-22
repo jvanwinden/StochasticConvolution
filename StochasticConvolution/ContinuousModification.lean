@@ -1,6 +1,6 @@
 module
 
-public import Challenge
+public import StochasticConvolution.Definitions
 
 /-! Countable-time unboundedness rules out a continuous modification. -/
 
