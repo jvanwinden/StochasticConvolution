@@ -1,12 +1,29 @@
+/-
+Copyright (c) 2026 Joris van Winden. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Joris van Winden
+-/
 module
 
 public import Mathlib
 
 /-!
-Challenge file for a corollary of Theorem 1.2 of https://arxiv.org/abs/2609.12688.
+Challenge file for a corollary of Theorem 1.2 of [1].
 
-The stochastic integral over [0,∞) is characterized using the closure of the
-graph of elementary integrals, with respect to convergence in probability.
+The main theorem is `discontinuous_stochastic_convolution`: a stochastic convolution
+with a strongly continuous semigroup on a Hilbert space does not always have a
+continuous modification.
+
+Since stochastic integration is not defined in Mathlib at the time of writing, this
+file also contains a characterization of the stochastic integral: `IsItoIntegral`.
+The integral is defined as the closure of the graph of elementary integrals, with
+respect to convergence in probability.
+
+The file additionally includes two statements which ensure that `IsItoIntegral` is not
+vacuous: `exists_isItoIntegral` and `isItoIntegral_unique`.
+
+* [1]. M. Veraar and J. van Winden, "No free lunch for continuity of stochastic convolutions",
+  arXiv:2609.12688.
 -/
 
 @[expose] public noncomputable section
@@ -100,7 +117,7 @@ open scoped lp
 /-- The canonical separable complex Hilbert space. -/
 abbrev X₀ := ℓ²(ℕ, ℂ)
 
-/-- A stochastic convolutions with C₀ semigroup might not have a
+/-- A stochastic convolution with a C₀-semigroup might not have a
 continuous modification. -/
 theorem discontinuous_stochastic_convolution :
     ∃ (S : ℝ≥0 → X₀ →L[ℂ] X₀)
