@@ -4,13 +4,9 @@ version: "v0.4"
 project:
   name: "Discontinuity of stochastic convolutions"
   description: >-
-    A formalization of a corollary of Theorem 1.2 of Veraar and van Winden's
-    No free lunch for continuity of stochastic convolutions. A C0-semigroup
-    on a complex Hilbert space can admit a stochastic convolution of a
-    predictable integrand with essentially bounded pathwise L2 norm that
-    has no continuous modification. The development also proves existence
-    and almost sure uniqueness of the Ito integral defined through
-    approximation by predictable elementary integrals.
+    A formalization of a corollary of Theorem 1.2 of arXiv:2609.12688v1. 
+    A C0-semigroup on a separable Hilbert space can admit a stochastic 
+    convolution that has no continuous modification.
   authors: ["Joris van Winden"]
   responsible_maintainers: ["Joris van Winden"]
   license: "Apache-2.0"
@@ -30,33 +26,69 @@ sources:
 
 status:
   scope: >-
-    Proves the three declarations in comparator.json. The main result is
-    the C0-semigroup/no-continuous-modification corollary; the paper's
-    stronger semigroup properties and finite-time unboundedness conclusions
-    are outside the scope of the compared statement.
+    The main result is the construction of a semigroup and
+    stochastic integrand for which the stochastic convolution
+    has no continuous modification. Additionally, a characterization
+    of the stochastic integral is provided. It is proved that this
+    stochastic integral exists and is unique for the class of integrands 
+    under consideration.
   # Counts exclude the intentional placeholders in Challenge.lean.
   sorry_count: 0
   sorry_in_definitions: 0
   axioms: ["propext", "Classical.choice", "Quot.sound"]
+  main_results:
+    - declaration: StochasticConvolution.discontinuous_stochastic_convolution
+      file: "Solution.lean"
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      comparator_config: "comparator.json"
+      literature_dependencies: []
+    - declaration: StochasticConvolution.exists_isItoIntegral
+      file: "Solution.lean"
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      comparator_config: "comparator.json"
+      literature_dependencies: []
+    - declaration: StochasticConvolution.isItoIntegral_unique
+      file: "Solution.lean"
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      comparator_config: "comparator.json"
+      literature_dependencies: []
 
 automation:
   methods:
     - method: "manual"
     - method: "agent"
       framework: "OpenAI Codex"
-      models: [] # TODO: Add model identifiers.
+      models: ["GPT-6 Astra"]
       cost:
-        wall_time: "not recorded" # TODO: Fill in if known.
-        spend_usd: "not recorded" # TODO: Fill in if known.
+        wall_time: "5 hours"
+        spend_usd: "subscription: chatgpt for academic researchers"
+        hardware: "Desktop PC"
+  spend_usd: "subscription: chatgpt for academic researchers"
+  notes: ""
 
 fidelity:
   divergences: >-
-    Uses a harmonic triangular Schauder basis in l2 and a direct argument
-    with stopped Brownian exponentials, energy stopping, and Baire category,
-    in place of the paper's weighted trigonometric basis and general
-    extrapolation argument.
+    The statement is a weaker corollary of Theorem 1.2 from the article.
+    The formal proof uses the strategy and ideas of the article, but
+    in a more direct way and with more explicit calculations.
 
 review:
-  # TODO: Complete the human review information.
-  status: "agent-reviewed"
-  reviewers: ["OpenAI Codex"]
+  status: "author-verified"
+  reviewers: ["Joris van Winden"]
+  notes: >-
+    The author wrote the formal theorem statement and verified that it
+    accurately captures the corollary of the article. The author verified
+    that the Solution proves the statements from the Challenge using comparator.
+
+acknowledgements: >-
+  The author is grateful to the Lean and Mathlib community for developing
+  the proof assistent and mathematical library, and to the Brownian motion
+  project for providing the foundations needed for stochastic calculus.
+  
+  The author has received funding from the VICI subsidy VI.C.242.087
+  of the Netherlands Organisation for Scientific Research (NWO).
+  This work was supported in part by a grant of access to OpenAI models 
+  through the ChatGPT for Academic Researchers program.
