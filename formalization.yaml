@@ -58,7 +58,6 @@ status:
 
 automation:
   methods:
-    - method: "manual"
     - method: "agent"
       framework: "OpenAI Codex"
       models: ["GPT-6 Astra"]
@@ -67,7 +66,10 @@ automation:
         spend_usd: "subscription: chatgpt for academic researchers"
         hardware: "Desktop PC"
   spend_usd: "subscription: chatgpt for academic researchers"
-  notes: ""
+  notes: >-
+    The statement was written by the author with assistance from
+    the agent. The proof was developed autonomously by the agent, 
+    using the article as a reference.
 
 fidelity:
   divergences: >-
