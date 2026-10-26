@@ -71,9 +71,12 @@ automation:
 
 fidelity:
   divergences: >-
-    The statement is a weaker corollary of Theorem 1.2 from the article.
-    The formal proof uses the strategy and ideas of the article, but
-    in a more direct way and with more explicit calculations.
+    The statement is a corollary of Theorem 1.2 from the article:
+    the semigroup is not required to be analytic, compact, or
+    exponentially stable. The convolution is required to be discontinuous 
+    on [0,∞) instead of unbounded on [0,1]. The formal proof uses 
+    the strategy and ideas of the article, but in a more direct way 
+    and with more explicit calculations.
 
 review:
   status: "author-verified"
@@ -85,9 +88,9 @@ review:
 
 acknowledgements: >-
   The author is grateful to the Lean and Mathlib community for developing
-  the proof assistent and mathematical library, and to the Brownian motion
+  the proof assistant and mathematical library, and to the Brownian motion
   project for providing the foundations needed for stochastic calculus.
-  
+
   The author has received funding from the VICI subsidy VI.C.242.087
   of the Netherlands Organisation for Scientific Research (NWO).
   This work was supported in part by a grant of access to OpenAI models 
