@@ -1,4 +1,4 @@
-# Discontinuity of stochastic convolutions.
+# Discontinuity of stochastic convolutions
 
 A Lean 4 formalization of a corollary of Theorem 1.2 from [1].
 
