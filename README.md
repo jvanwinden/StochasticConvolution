@@ -26,7 +26,7 @@ which should output
 Your solution is okay!
 ```
 
-The project is pinned to Lean and Mathlib version `v4.35.0`.
+The project is pinned to Lean and Mathlib version `v4.36.0`.
 This work was supported in part by a grant of access to OpenAI models 
 through the ChatGPT for Academic Researchers program.
 
