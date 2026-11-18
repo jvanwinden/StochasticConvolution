@@ -74,11 +74,11 @@ theorem measurable_path_eLpNorm_two {g : ℝ≥0 × Ω → X} (hg : StronglyMeas
   have heq (ω : Ω) : eLpNorm (fun t ↦ g (t, ω)) 2 (volume : Measure ℝ≥0) =
       (∫⁻ t, ‖g (t, ω)‖ₑ ^ (2 : ℝ) ∂(volume : Measure ℝ≥0)) ^ (1 / (2 : ℝ)) := by
     simpa only [ENNReal.toReal_ofNat, Function.comp_def] using
-      eLpNorm_eq_lintegral_rpow_enorm_toReal (μ := (volume : Measure ℝ≥0))
+      eLpNorm_eq_lintegral_rpow_eNorm_toReal (μ := (volume : Measure ℝ≥0))
         (by norm_num : (2 : ℝ≥0∞) ≠ 0) (by simp)
         (hg.comp_measurable measurable_prodMk_right).aestronglyMeasurable
   simp_rw [heq]
-  exact ((hg.enorm.pow_const (2 : ℝ)).lintegral_prod_left'
+  exact ((hg.eNorm.pow_const (2 : ℝ)).lintegral_prod_left'
     (μ := (volume : Measure ℝ≥0))).pow_const _
 
 /-- The pathwise `L²` errors of uniform elementary approximation converge in probability. -/

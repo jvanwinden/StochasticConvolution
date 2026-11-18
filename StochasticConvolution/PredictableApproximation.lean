@@ -83,13 +83,13 @@ theorem isAdmissibleIntegrand_memLp_product
   have hm := isStronglyPredictable_stronglyMeasurable hg.isStronglyPredictable
   have hpath (ω : Ω) : StronglyMeasurable (g · ω) :=
     hm.comp_measurable measurable_prodMk_right
-  apply (eLpNorm_lt_top_iff_lintegral_rpow_enorm_lt_top
+  apply (eLpNorm_lt_top_iff_lintegral_rpow_eNorm_lt_top
     (by simp : (2 : ℝ≥0∞) ≠ 0) (by simp) hm.aestronglyMeasurable).mpr
   simp only [ENNReal.toReal_ofNat, ENNReal.rpow_two]
   change (∫⁻ p : ℝ≥0 × Ω, ‖Function.uncurry g p‖ₑ ^ 2
     ∂((volume : Measure ℝ≥0).prod P)) < ∞
   rw [lintegral_prod_symm (μ := (volume : Measure ℝ≥0)) (ν := P) _
-    (hm.enorm.pow_const 2).aemeasurable]
+    (hm.eNorm.pow_const 2).aemeasurable]
   have hp (ω : Ω) : (∫⁻ t, ‖g t ω‖ₑ ^ 2 ∂(volume : Measure ℝ≥0)) =
       eLpNorm (g · ω) 2 (volume : Measure ℝ≥0) ^ 2 := by
     simpa only [NNReal.coe_ofNat, ENNReal.coe_ofNat, ENNReal.rpow_two] using

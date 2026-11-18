@@ -102,7 +102,7 @@ theorem preBrownian_ae_summable_dyadicMax {Ω : Type*} {mΩ : MeasurableSpace Ω
       (by norm_num)).mul_left _
   have hfin : (∑' n, P {ω | (7 / 8 : ℝ≥0) ^ n <
       dyadicMaxIncrement (B · ω) N n}) ≠ ∞ :=
-    ne_of_lt ((ENNReal.tsum_le_tsum (preBrownian_dyadicMax_tail hB N)).trans_lt
+    ne_of_lt ((tsum_le_tsum (preBrownian_dyadicMax_tail hB N)).trans_lt
       hsum.tsum_ofReal_lt_top)
   filter_upwards [ae_eventually_notMem hfin] with ω hω
   apply (summable_geometric_of_lt_one (by norm_num : (0 : ℝ) ≤ 7 / 8)

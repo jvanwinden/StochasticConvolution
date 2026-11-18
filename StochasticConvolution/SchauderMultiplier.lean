@@ -39,23 +39,23 @@ theorem summable_schauderMultiplier (b : SchauderBasis ℂ X) {a : ℕ → ℝ}
     Summable (fun n ↦ ((a n - a (n + 1) : ℝ) : ℂ) • SchauderBasis.proj b (n + 1)) := by
   apply Summable.of_norm_bounded
     ((hasSum_antitone_sub_of_tendsto_zero ha hlim).summable.mul_right
-      (b.nnnormProjBound : ℝ))
+      (b.nnNormProjBound : ℝ))
   intro n
   rw [norm_smul, Complex.norm_real, Real.norm_eq_abs,
     abs_of_nonneg (sub_nonneg.mpr (ha (Nat.le_succ n)))]
-  exact mul_le_mul_of_nonneg_left (b.norm_proj_le_nnnormProjBound (n + 1))
+  exact mul_le_mul_of_nonneg_left (b.norm_proj_le_nnNormProjBound (n + 1))
     (sub_nonneg.mpr (ha (Nat.le_succ n)))
 
 /-- The multiplier norm is bounded by the first coefficient times the basis constant. -/
 theorem norm_schauderMultiplier_le (b : SchauderBasis ℂ X) {a : ℕ → ℝ}
     (ha : Antitone a) (hlim : Tendsto a atTop (𝓝 0)) :
-    ‖schauderMultiplier b a‖ ≤ a 0 * (b.nnnormProjBound : ℝ) := by
+    ‖schauderMultiplier b a‖ ≤ a 0 * (b.nnNormProjBound : ℝ) := by
   apply tsum_of_norm_bounded
-    ((hasSum_antitone_sub_of_tendsto_zero ha hlim).mul_right (b.nnnormProjBound : ℝ))
+    ((hasSum_antitone_sub_of_tendsto_zero ha hlim).mul_right (b.nnNormProjBound : ℝ))
   intro n
   rw [norm_smul, Complex.norm_real, Real.norm_eq_abs,
     abs_of_nonneg (sub_nonneg.mpr (ha (Nat.le_succ n)))]
-  exact mul_le_mul_of_nonneg_left (b.norm_proj_le_nnnormProjBound (n + 1))
+  exact mul_le_mul_of_nonneg_left (b.norm_proj_le_nnNormProjBound (n + 1))
     (sub_nonneg.mpr (ha (Nat.le_succ n)))
 
 /-- Evaluation commutes with the operator-norm convergent multiplier series. -/

@@ -51,7 +51,7 @@ theorem harmonicSemigroupL2_apply_basis (t : ℝ≥0) (n : ℕ) :
 
 theorem norm_harmonicSemigroupL2_le (t : ℝ≥0) :
     ‖harmonicSemigroupL2 t‖ ≤
-      max 1 (harmonicBasisL2.nnnormProjBound : ℝ) * Real.exp (-(t : ℝ) / 2) := by
+      max 1 (harmonicBasisL2.nnNormProjBound : ℝ) * Real.exp (-(t : ℝ) / 2) := by
   have hb := norm_schauderSemigroup_le harmonicBasisL2 monotone_harmonic_eigenvalues
     tendsto_harmonic_eigenvalues t
   have heq : -((4 : ℝ) ^ (0 : ℕ) / 2) * (t : ℝ) = -(t : ℝ) / 2 := by norm_num; ring
@@ -60,7 +60,7 @@ theorem norm_harmonicSemigroupL2_le (t : ℝ≥0) :
 /-- Exponential stability on the positive real axis. -/
 theorem harmonicSemigroupL2_exponentially_stable :
     ∃ M : ℝ, 0 < M ∧ ∀ t : ℝ≥0, ‖harmonicSemigroupL2 t‖ ≤ M * Real.exp (-(t : ℝ) / 2) :=
-  ⟨max 1 (harmonicBasisL2.nnnormProjBound : ℝ),
+  ⟨max 1 (harmonicBasisL2.nnNormProjBound : ℝ),
     lt_of_lt_of_le zero_lt_one (le_max_left _ _), norm_harmonicSemigroupL2_le⟩
 
 /-- The canonical basis supplies the deterministic square-function obstruction. -/

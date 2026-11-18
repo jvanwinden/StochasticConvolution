@@ -71,7 +71,7 @@ theorem ito_integrals_tendstoInMeasure_zero (hβ : IsStochasticBasis P F β)
   have hW := elementary_integrals_tendstoInMeasure_zero hβ (fun n ↦ helem n (k n)) hinput
   have hdiff : TendstoInMeasure P (fun n ω ↦ W n (k n) ω - Z n ω) atTop 0 := by
     apply tendstoInMeasure_of_vanishing_thresholds hδ
-    simpa only [Pi.zero_apply, edist_eq_enorm_sub, sub_zero] using fun n ↦ (hk n).2
+    simpa only [Pi.zero_apply, eDist_eq_eNorm_sub, sub_zero] using fun n ↦ (hk n).2
   have h := tendstoInMeasure_sub hW hdiff
   simpa only [sub_sub_cancel, Pi.zero_apply, sub_zero, Pi.zero_def] using h
 

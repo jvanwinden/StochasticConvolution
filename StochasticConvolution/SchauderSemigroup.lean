@@ -64,7 +64,7 @@ theorem schauderSemigroup_add (b : SchauderBasis ℂ X) {a : ℕ → ℝ}
 theorem norm_schauderSemigroup_le (b : SchauderBasis ℂ X) {a : ℕ → ℝ}
     (hamono : Monotone a) (hatop : Tendsto a atTop atTop) (t : ℝ≥0) :
     ‖schauderSemigroup b a t‖ ≤
-      Real.exp (-a 0 * t) * max 1 (b.nnnormProjBound : ℝ) := by
+      Real.exp (-a 0 * t) * max 1 (b.nnNormProjBound : ℝ) := by
   by_cases ht : t = 0
   · subst t
     simp only [schauderSemigroup, NNReal.coe_zero, mul_zero,
@@ -80,7 +80,7 @@ theorem norm_schauderSemigroup_le (b : SchauderBasis ℂ X) {a : ℕ → ℝ}
 theorem norm_schauderSemigroup_le_basisConstant (b : SchauderBasis ℂ X) {a : ℕ → ℝ}
     (hamono : Monotone a) (hatop : Tendsto a atTop atTop) (hazero : 0 ≤ a 0)
     (t : ℝ≥0) :
-    ‖schauderSemigroup b a t‖ ≤ max 1 (b.nnnormProjBound : ℝ) := by
+    ‖schauderSemigroup b a t‖ ≤ max 1 (b.nnNormProjBound : ℝ) := by
   have he : Real.exp (-a 0 * t) ≤ 1 :=
     Real.exp_le_one_iff.mpr (mul_nonpos_of_nonpos_of_nonneg (neg_nonpos.mpr hazero) t.coe_nonneg)
   exact (norm_schauderSemigroup_le b hamono hatop t).trans
@@ -91,7 +91,7 @@ theorem norm_schauderSemigroup_le_basisConstant (b : SchauderBasis ℂ X) {a : �
 theorem continuous_schauderSemigroup_orbit (b : SchauderBasis ℂ X) {a : ℕ → ℝ}
     (hamono : Monotone a) (hatop : Tendsto a atTop atTop) (hazero : 0 ≤ a 0) (x : X) :
     Continuous (fun t ↦ schauderSemigroup b a t x) := by
-  let C : ℝ := max 1 (b.nnnormProjBound : ℝ)
+  let C : ℝ := max 1 (b.nnNormProjBound : ℝ)
   have hc (n : ℕ) : Continuous (fun t ↦ schauderSemigroup b a t (SchauderBasis.proj b n x)) := by
     have heq : (fun t ↦ schauderSemigroup b a t (SchauderBasis.proj b n x)) =
         (fun t : ℝ≥0 ↦ ∑ i ∈ Finset.range n,

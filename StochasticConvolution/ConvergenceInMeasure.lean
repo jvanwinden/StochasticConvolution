@@ -92,7 +92,7 @@ theorem exists_subseq_tendstoInMeasure_of_cauchy
   have hA (k : ℕ) : P (A k) ≤ (2 : ℝ≥0∞)⁻¹ ^ k :=
     hN k (ns k) (ns (k + 1)) (hnsN k) ((hnsN k).trans (hns.monotone (Nat.le_succ k)))
   have hsum : (∑' k, P (A k)) ≠ ∞ := by
-    apply ne_top_of_le_ne_top _ (ENNReal.tsum_le_tsum hA)
+    apply ne_top_of_le_ne_top _ (tsum_le_tsum hA)
     simp only [ENNReal.tsum_geometric, ENNReal.one_sub_inv_two, inv_inv]
     exact ENNReal.ofNat_ne_top
   have hcauchy : ∀ᵐ ω ∂P, CauchySeq (fun k ↦ f (ns k) ω) := by

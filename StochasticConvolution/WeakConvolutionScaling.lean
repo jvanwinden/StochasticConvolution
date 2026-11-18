@@ -45,7 +45,7 @@ theorem convolution_weak_bound_scale {K : ℝ} {ε : ℝ≥0∞}
     calc
       _ ≤ ‖B⁻¹‖ₑ * ENNReal.ofReal B := mul_le_mul le_rfl hω (by positivity) (by positivity)
       _ = 1 := by
-        rw [Real.enorm_eq_ofReal (inv_nonneg.mpr hB.le),
+        rw [Real.eNorm_eq_ofReal (inv_nonneg.mpr hB.le),
           ← ENNReal.ofReal_mul (inv_nonneg.mpr hB.le), inv_mul_cancel₀ hB.ne', ENNReal.ofReal_one]
   have hU' (T : ℝ≥0) : IsItoIntegral P F β
       (fun s ω ↦ if s ≤ T then S (T - s) (g' s ω) else 0) (U' T) :=

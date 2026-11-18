@@ -44,15 +44,15 @@ theorem isItoIntegral_const_smul {g : ℝ≥0 → Ω → X} {Z : Ω → X}
   obtain ⟨f, W, helem, hin, hout⟩ := hZ
   refine ⟨(fun n t ω ↦ c • f n t ω), (fun n ω ↦ c • W n ω),
     (fun n ↦ ⟨(helem n).1.const_smul c, isElementaryIntegral_const_smul (helem n).2 c⟩), ?_, ?_⟩
-  · apply tendstoInMeasure_of_edist_le_mul hin (C := ‖c‖ₑ) enorm_ne_top
+  · apply tendstoInMeasure_of_edist_le_mul hin (C := ‖c‖ₑ) eNorm_ne_top
     intro n
     filter_upwards [] with ω
     simp only [Pi.zero_apply, ENNReal.edist_zero_right, ← smul_sub]
     change eLpNorm (c • (fun s ↦ f n s ω - g s ω)) 2 ≤ _
     exact (eLpNorm_const_smul c _ _ _).le
-  · apply tendstoInMeasure_of_edist_le_mul hout (C := ‖c‖ₑ) enorm_ne_top
+  · apply tendstoInMeasure_of_edist_le_mul hout (C := ‖c‖ₑ) eNorm_ne_top
     intro n
     filter_upwards [] with ω
-    simp only [edist_eq_enorm_sub, ← smul_sub, enorm_smul, le_refl]
+    simp only [eDist_eq_eNorm_sub, ← smul_sub, eNorm_smul, le_refl]
 
 end Solution

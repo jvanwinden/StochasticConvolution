@@ -32,7 +32,7 @@ theorem lintegral_eLpNorm_two_pow {f : T × Ω → E} (hf : StronglyMeasurable f
         (p := (2 : ℝ≥0)) (by norm_num)
         (hf.comp_measurable measurable_prodMk_right).aestronglyMeasurable)
   simp_rw [hpath]
-  rw [← lintegral_prod_symm _ (hf.enorm.pow_const 2).aemeasurable]
+  rw [← lintegral_prod_symm _ (hf.eNorm.pow_const 2).aemeasurable]
   simpa only [NNReal.coe_ofNat, ENNReal.coe_ofNat, ENNReal.rpow_two] using
     (eLpNorm_nnreal_pow_eq_lintegral (p := (2 : ℝ≥0)) (by norm_num)
       hf.aestronglyMeasurable).symm
@@ -52,7 +52,7 @@ theorem tendstoInMeasure_eLpNorm_two_of_product {l : Filter ι} {f : ι → T ×
         ((hf i).comp_measurable measurable_prodMk_right).aestronglyMeasurable)
   have hm (i : ι) : Measurable (fun ω ↦ eLpNorm (fun t ↦ f i (t, ω)) 2 μ ^ 2) := by
     simp_rw [hpath]
-    exact ((hf i).enorm.pow_const 2).lintegral_prod_left'
+    exact ((hf i).eNorm.pow_const 2).lintegral_prod_left'
   have hbound (i : ι) :
       P {ω | ε ≤ edist (eLpNorm (fun t ↦ f i (t, ω)) 2 μ) (0 : ℝ≥0∞)} ≤
         eLpNorm (f i) 2 (μ.prod P) ^ 2 / ε ^ 2 := by

@@ -37,7 +37,7 @@ theorem eLpNorm_tsum_le_of_tsum_ne_top {p : ℝ≥0∞} (hp : 1 ≤ p) {f : ℕ 
     eLpNorm (fun x ↦ ∑ n ∈ Finset.range N, f n x) p μ =
         eLpNorm (∑ n ∈ Finset.range N, f n) p μ := by congr 1; funext x; simp
     _ ≤ ∑ n ∈ Finset.range N, eLpNorm (f n) p μ := eLpNorm_sum_le hp
-    _ ≤ ∑' n, eLpNorm (f n) p μ := ENNReal.sum_le_tsum (Finset.range N)
+    _ ≤ ∑' n, eLpNorm (f n) p μ := sum_le_tsum (Finset.range N)
 
 end InfiniteSum
 
@@ -72,7 +72,7 @@ theorem l1PredictableCombination_energy_le {g : ℕ → ℝ≥0 → Ω → X}
   filter_upwards [ae_all_iff.mpr hbound] with ω hω
   have hnormsum : (∑' n, eLpNorm (fun t ↦ a n • g n t ω) 2) ≤ ENNReal.ofReal ‖a‖ := by
     rw [← lp_one_tsum_enorm]
-    apply ENNReal.tsum_le_tsum
+    apply tsum_le_tsum
     intro n
     change eLpNorm (a n • (g n · ω)) 2 ≤ ‖a n‖ₑ
     rw [eLpNorm_const_smul]

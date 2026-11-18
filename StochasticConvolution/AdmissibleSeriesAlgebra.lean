@@ -33,7 +33,7 @@ theorem l1PredictableCombination_ae_summable
   filter_upwards [ae_all_iff.mpr hbound] with ω hω
   have hnormsum : (∑' n, eLpNorm (fun t ↦ a n • g n t ω) 2) ≤ ENNReal.ofReal ‖a‖ := by
     rw [← lp_one_tsum_enorm]
-    apply ENNReal.tsum_le_tsum
+    apply tsum_le_tsum
     intro n
     change eLpNorm (a n • (g n · ω)) 2 ≤ ‖a n‖ₑ
     rw [eLpNorm_const_smul]
